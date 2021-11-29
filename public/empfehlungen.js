@@ -187,7 +187,7 @@ function updateVariables(data) {
         //console.log(temp);
         var text2 = 'Die Werte sind im grünen Bereich. Es ist keine Handlung notwendig';  
       
-        var text = 'Das Schimmelrisiko ist tief. Die Feuchtigkeit liegt unter 70% und die Raumtemperatur über 20°';  
+        var text = 'Das Schimmelrisiko ist tief. Die Feuchtigkeit liegt unter 70% und die Raumtemperatur in einem angemessenen Bereich';  
        }
 
       document.getElementById("Risiko-text").innerHTML = text;
