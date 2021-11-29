@@ -75,7 +75,7 @@ function updateVariables(data) {
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
         // -- TODO Aufgabe 2 -- 
         // Weitere Farben abhängig vom Level
-        if (tempHour < 70) {
+        if (tempHour > 20) {
             color = "Green";
         } else {
             color = "Red";

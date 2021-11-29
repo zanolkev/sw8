@@ -23,10 +23,9 @@ var allMeasurements = [];
 // Maximalwert anpassen
 var maxLevel = 100;
 
-
-   
 // Diese Funktion wird immer dann ausgeführt, wenn ein neues Event empfangen wird.
 function updateVariables(data) {
+
 
    // zum test
    // document.getElementById("lastevent").innerHTML = JSON.stringify(data);
@@ -194,6 +193,71 @@ function updateVariables(data) {
       document.getElementById("Risiko-text").innerHTML = text;
       document.getElementById("Empfehlung-text").innerHTML = text2;
            }
-    }
+   
+      
+ }
+ async function getHumDay() {
+    // request the variable "HummidityDay"
+    var response = await axios.get(rootUrl + "/api/device/0/variable/HummidityDay");
+    var HumDay = response.data.result;
+    console.log(HumDay);
+
+    // update the html element
+    document.getElementById("HummidityDay").innerHTML = HumDay;
+
+ // Farbe des Balkens abhängig von Level festlegen
+        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
+        // -- TODO Aufgabe 2 -- 
+        // Weitere Farben abhängig vom Level
+        if (HumDay < 70) {
+            color = "Green";
+        } else {
+            color = "Red";
+        }
+        // CSS Style für die Hintergrundfarbe des Balkens
+        var colorStyle = "background-color: " + color + " !important;";
+
+        // CSS Style für die Breite des Balkens in Prozent
+        var widthStyle = "width: " + HumDay + "%;";
+
+        // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
+        // den Progressbar im HTML-Dokument zu aktualisieren
+		
+        document.getElementById("Hummidity-average-bar").style = colorStyle + widthStyle;
+
+}
+   
+async function getTempDay() {
+    // request the variable "HummidityDay"
+    var response = await axios.get(rootUrl + "/api/device/0/variable/TemperatureDay");
+    var TempDay = response.data.result;
+    console.log(TempDay);
+
+    // update the html element
+    document.getElementById("TemperatureDay").innerHTML = TempDay;
+
+ // Farbe des Balkens abhängig von Level festlegen
+        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
+        // -- TODO Aufgabe 2 -- 
+        // Weitere Farben abhängig vom Level
+        if (TempDay > 20) {
+            color = "Green";
+        } else {
+            color = "Red";
+        }
+        // CSS Style für die Hintergrundfarbe des Balkens
+        var colorStyle = "background-color: " + color + " !important;";
+
+        // CSS Style für die Breite des Balkens in Prozent
+        var widthStyle = "width: " + TempDay + "%;";
+
+        // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
+        // den Progressbar im HTML-Dokument zu aktualisieren
+		
+        document.getElementById("Temperature-average-bar").style = colorStyle + widthStyle;
+
+}
+   
+        
 
 
