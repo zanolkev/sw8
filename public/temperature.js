@@ -21,27 +21,27 @@ var maxLevel = 100;
 var tempHour;
    
 async function getTemp() {
+      //DB Request
+      var today = new Date().toISOString().slice(0, 10)
+      const d = new Date();
+      let hour = d.getHours()-1;
+      // e.g. http://localhost:3001/MyDB/MotionDetected?timestamp=13:00
+      var url = rootUrl + "/api/MyDB/TemperatureHour?timestamp="+ today; 
+      var response = await axios.get(url);
+      //var result = Number(response.data[hour].eventData);
 
-       var today = new Date().toISOString().slice(0, 10)
-       const d = new Date();
-       let hour = d.getHours()-1;
-        // e.g. http://localhost:3001/MyDB/MotionDetected?timestamp=13:00
-       var url = rootUrl + "/api/MyDB/TemperatureHour?timestamp="+ today; 
-    
-        var response = await axios.get(url);
-        //console.log(response.data[0].eventData)
-        var result = Number(response.data[hour].eventData);
-        //var timestamp= String(response.data[hour].timestamp);
-        //var result2 = timestamp.substring(11, timestamp.length-5);
-        
+      //API Particle Request für text  
+      var response = await axios.get(rootUrl + "/api/device/0/variable/TemperatureHour");
+      var TempHour = response.data.result;
+
        //auskomentiert zum testn
-      document.getElementById("Temperature-average-text").innerHTML = result + "°   ";  
+      document.getElementById("Temperature-average-text").innerHTML = TempHour + "°   ";  
       
         // Farbe des Balkens abhängig von Level festlegen
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
         // -- TODO Aufgabe 2 -- 
         // Weitere Farben abhängig vom Level
-      if (result > 20) {
+      if (TempHour > 20) {
           color = "Green";
        } else {
           color = "Red";
@@ -50,18 +50,15 @@ async function getTemp() {
       var colorStyle = "background-color: " + color + " !important;";
 
         // CSS Style für die Breite des Balkens in Prozent
-      var widthStyle = "width: " + result + "%;";
+      var widthStyle = "width: " + TempHour + "%;";
 
         // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
         // den Progressbar im HTML-Dokument zu aktualisieren
 		
       document.getElementById("Temperature-average-bar").style = colorStyle + widthStyle;
+      //Fill Chart with data
       var i=0;
-      do {
-
-        var date = new Date();
-        // aktuelle Zeit in der Variable 'localTime' speichern
-        var localTime = date.toLocaleTimeString();
+      do {  
         i += 1;
         var x=Number(response.data[i].eventData);
         var timestamp= String(response.data[i].timestamp);
@@ -83,7 +80,7 @@ async function getTemp() {
   
    // Farbe des Balkens abhängig von Level festlegen
           // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-          // -- TODO Aufgabe 2 -- 
+          
           // Weitere Farben abhängig vom Level
           if (TempMinute > 20) {
               color = "Green";

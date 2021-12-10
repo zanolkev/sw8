@@ -21,27 +21,27 @@ var maxLevel = 100;
 var HumHour;
    
 async function getHum() {
+ //DB Request
+ var today = new Date().toISOString().slice(0, 10)
+ const d = new Date();
+ let hour = d.getHours()-1;
+ // e.g. http://localhost:3001/MyDB/MotionDetected?timestamp=13:00
+ var url = rootUrl + "/api/MyDB/HummidityHour?timestamp="+ today; 
+ var response = await axios.get(url);
+ //var result = Number(response.data[hour].eventData);
 
-       var today = new Date().toISOString().slice(0, 10)
-       const d = new Date();
-       let hour = d.getHours()-1;
-        // e.g. http://localhost:3001/MyDB/MotionDetected?timestamp=13:00
-       var url = rootUrl + "/api/MyDB/HummidityHour?timestamp="+ today; 
-    
-        var response = await axios.get(url);
-        //console.log(response.data[0].eventData)
-        var result = Number(response.data[hour].eventData);
-        //var timestamp= String(response.data[hour].timestamp);
-        //var result2 = timestamp.substring(11, timestamp.length-5);
-        
-       //auskomentiert zum testn
-      document.getElementById("Hummidity-average-text").innerHTML = result + "% ";  
+ //API Particle Request für text  
+ var response = await axios.get(rootUrl + "/api/device/0/variable/HummidityHour");
+ var HumHour = response.data.result;
+
+  //auskomentiert zum testn
+ document.getElementById("Hummidity-average-text").innerHTML = HumHour + "°   ";
       
         // Farbe des Balkens abhängig von Level festlegen
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
         // -- TODO Aufgabe 2 -- 
         // Weitere Farben abhängig vom Level
-      if (result < 70) {
+      if (HumHour < 70) {
           color = "Green";
        } else {
           color = "Red";
@@ -50,12 +50,14 @@ async function getHum() {
       var colorStyle = "background-color: " + color + " !important;";
 
         // CSS Style für die Breite des Balkens in Prozent
-      var widthStyle = "width: " + result + "%;";
+      var widthStyle = "width: " + HumHour + "%;";
 
         // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
         // den Progressbar im HTML-Dokument zu aktualisieren
 		
       document.getElementById("Hummidity-average-bar").style = colorStyle + widthStyle;
+      
+      //Fill Chart with data
       var i=0;
       do {            
         i += 1;
