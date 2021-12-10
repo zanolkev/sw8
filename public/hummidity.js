@@ -31,8 +31,8 @@ async function getHum() {
  //var result = Number(response.data[hour].eventData);
 
  //API Particle Request für text  
- var response = await axios.get(rootUrl + "/api/device/0/variable/HummidityHour");
- var HumHour = response.data.result;
+ var response2 = await axios.get(rootUrl + "/api/device/0/variable/HummidityHour");
+ var HumHour = response2.data.result;
 
   //auskomentiert zum testn
  document.getElementById("Hummidity-average-text").innerHTML = HumHour + "°   ";

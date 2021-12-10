@@ -10,14 +10,14 @@ async function getResult() {
     const d = new Date();
     let hour = d.getHours()-1;
     // e.g. http://localhost:3001/MyDB/MotionDetected?timestamp=13:00
-   var url = rootUrl + "/api/MyDB/TemperatureHour?timestamp="+ today; 
+   var url = rootUrl + "/api/MyDB/TemperatureHour?timestamp=2021-12-10"; 
 
     var response = await axios.get(url);
+   
+    var result = String(response.data[1].timestamp);
+    var result2 = result.substring(11, result.length-8);
     
-    console.log(response.data[0].eventData)
-    var result = Number(response.data[hour].eventData);
-    
-   document.getElementById("result").innerHTML = hour;
+   document.getElementById("result").innerHTML = result2;
 }
 
 

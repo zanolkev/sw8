@@ -28,11 +28,11 @@ async function getTemp() {
       // e.g. http://localhost:3001/MyDB/MotionDetected?timestamp=13:00
       var url = rootUrl + "/api/MyDB/TemperatureHour?timestamp="+ today; 
       var response = await axios.get(url);
-      //var result = Number(response.data[hour].eventData);
+      var result = Number(response.data[0].eventData);
 
       //API Particle Request für text  
-      var response = await axios.get(rootUrl + "/api/device/0/variable/TemperatureHour");
-      var TempHour = response.data.result;
+     var response2 = await axios.get(rootUrl + "/api/device/0/variable/TemperatureHour");
+      var TempHour = response2.data.result;
 
        //auskomentiert zum testn
       document.getElementById("Temperature-average-text").innerHTML = TempHour + "°   ";  
@@ -46,6 +46,7 @@ async function getTemp() {
        } else {
           color = "Red";
       }
+
         // CSS Style für die Hintergrundfarbe des Balkens
       var colorStyle = "background-color: " + color + " !important;";
 
@@ -57,13 +58,13 @@ async function getTemp() {
 		
       document.getElementById("Temperature-average-bar").style = colorStyle + widthStyle;
       //Fill Chart with data
-      var i=0;
+      var i=0;   
       do {  
-        i += 1;
         var x=Number(response.data[i].eventData);
         var timestamp= String(response.data[i].timestamp);
         var result2 = timestamp.substring(11, timestamp.length-8);
         addData(x,result2);
+        i += 1;
       } while (i < hour+1);
 
         
