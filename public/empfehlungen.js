@@ -21,21 +21,12 @@ initSSE();
 // -- TODO Aufgabe 1 -- 
 // Maximalwert anpassen
 var maxLevel = 100;
-
-// Diese Funktion wird immer dann ausgeführt, wenn ein neues Event empfangen wird.
-function updateVariables(data) {
-
-
-   // zum test
-   // document.getElementById("lastevent").innerHTML = JSON.stringify(data);
-       
-    if (data.eventName === "RisikoTyp") {
-        // Erhaltenen Wert in der Variable 'Temperature' speichern
-
- // zum test
-// document.getElementById("lastevent").innerHTML = data.eventData;        
-        var risiko = Number(data.eventData);
-       if (risiko =1){
+  
+   async function getRisikoTyp() {
+    // request the variable "RsikoTyp"
+    var response = await axios.get(rootUrl + "/api/device/0/variable/RisikoTyp");
+    var risiko = response.data.result;
+        if (risiko =1){
         //console.log(temp);
         var text = 'Das Schimmelrisiko ist hoch. Die Feuchtigkeit liegt über 70%';  
         var text2 = 'Ich empfehle dir ein Entfeuchtungsgerät einzusetzen um die Feuchtigkeit in ein angemesser Bereich zu halten';     
@@ -68,12 +59,12 @@ function updateVariables(data) {
            }
    
       
- }
+ 
  async function getHumDay() {
     // request the variable "HummidityDay"
     var response = await axios.get(rootUrl + "/api/device/0/variable/HummidityDay");
     var HumDay = response.data.result;
-    console.log(HumDay);
+   
 
     // update the html element
     document.getElementById("HummidityDay").innerHTML = HumDay;
