@@ -41,7 +41,7 @@ async function getHum() {
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
         // -- TODO Aufgabe 2 -- 
         // Weitere Farben abhängig vom Level
-      if (result > 70) {
+      if (result < 70) {
           color = "Green";
        } else {
           color = "Red";
@@ -57,11 +57,7 @@ async function getHum() {
 		
       document.getElementById("Hummidity-average-bar").style = colorStyle + widthStyle;
       var i=0;
-      do {
-
-        var date = new Date();
-      
-        
+      do {            
         i += 1;
         var x=Number(response.data[i].eventData);
         var timestamp= String(response.data[i].timestamp);
@@ -79,13 +75,13 @@ async function getHum() {
 
   
       // update the html element
-      document.getElementById("Hummidity-text").innerHTML = HumMinute;
+      document.getElementById("Hummidity-text").innerHTML = HumMinute+"%";
   
    // Farbe des Balkens abhängig von Level festlegen
           // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
           // -- TODO Aufgabe 2 -- 
           // Weitere Farben abhängig vom Level
-          if (HumMinute > 20) {
+          if (HumMinute < 70) {
               color = "Green";
           } else {
               color = "Red";
