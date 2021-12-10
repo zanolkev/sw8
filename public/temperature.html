@@ -45,21 +45,27 @@
 
         <!-- aktueller Temperature Level als Text -->
         <p id="Temperature-text">Warte auf erste Messung...</p>
-        <h2 class="mt-5">Temperatur  (Durchschnitt)</h2>
+        <button onclick="getTempMinute()">Get Temperature now</button> 
+        <h2 class="mt-5">Temperatur  (Durchschnitt/letzte Stunde)</h2>
+           
 
         <!-- Durchschnittlicher Temperature Level als Progressbar -->
         <div class="progress">
             <div id="Temperature-average-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
         </div>
+         <!-- Temperature-text  Aktueller Temperature Level als Text -->
+       
+           
 
-        <!-- Temperature-text  Aktueller Temperature Level als Text -->
         <p id="Temperature-average-text">Warte auf erste Messung...</p>    
+       
+        <button onclick="getTemp()">Get Temperature</button> 
         <h2 class="mt-5">Temperatur Level (Verlauf)</h2>
 
         <!-- Verlauf Temperature Level als Chart -->
         <div id="Temperature-chart" style="max-width:100%; height:400px"></div>
     </div>
-
+   
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -69,7 +75,10 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <!-- Eigenes JavaScript -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="temperature.js"></script>
+
 </body>
 
 </html>

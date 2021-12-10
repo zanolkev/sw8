@@ -20,80 +20,88 @@ initSSE();
 var maxLevel = 100;
 var tempHour;
    
-// Diese Funktion wird immer dann ausgeführt, wenn ein neues Event empfangen wird.
-function updateVariables(data) {
+async function getTemp() {
 
-   // zum test
-   // document.getElementById("lastevent").innerHTML = JSON.stringify(data);
+       var today = new Date().toISOString().slice(0, 10)
+       const d = new Date();
+       let hour = d.getHours()-1;
+        // e.g. http://localhost:3001/MyDB/MotionDetected?timestamp=13:00
+       var url = rootUrl + "/api/MyDB/TemperatureHour?timestamp="+ today; 
     
-    if (data.eventName === "Temperature") {
-        // Erhaltenen Wert in der Variable 'Temperature' speichern
-
- // zum test
-// document.getElementById("lastevent").innerHTML = data.eventData;        
-        var temp = Number(data.eventData);
-       //console.log(temp);
-       document.getElementById("Temperature-text").innerHTML = temp+ '°';  
+        var response = await axios.get(url);
+        //console.log(response.data[0].eventData)
+        var result = Number(response.data[hour].eventData);
+        //var timestamp= String(response.data[hour].timestamp);
+        //var result2 = timestamp.substring(11, timestamp.length-5);
+        
+       //auskomentiert zum testn
+      document.getElementById("Temperature-average-text").innerHTML = result + "°   ";  
       
         // Farbe des Balkens abhängig von Level festlegen
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
         // -- TODO Aufgabe 2 -- 
         // Weitere Farben abhängig vom Level
-        if (temp < 70) {
-            color = "Green";
-        } else {
-            color = "Red";
-        }
-
+      if (result > 20) {
+          color = "Green";
+       } else {
+          color = "Red";
+      }
         // CSS Style für die Hintergrundfarbe des Balkens
-        var colorStyle = "background-color: " + color + " !important;";
+      var colorStyle = "background-color: " + color + " !important;";
 
         // CSS Style für die Breite des Balkens in Prozent
-        var widthStyle = "width: " + temp + "%;";
+      var widthStyle = "width: " + result + "%;";
 
         // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
         // den Progressbar im HTML-Dokument zu aktualisieren
 		
-        document.getElementById("Temperature-bar").style = colorStyle + widthStyle;
-		
-		// Text unterhalb des Balkens aktualisieren
-        //document.getElementById("TemperatureAktuell").innerHTML = temp;
-	}
-	    
-    if (data.eventName === "TemperatureHour") {
-        // Erhaltenen Wert in der Variable 'Temperature' speichern
+      document.getElementById("Temperature-average-bar").style = colorStyle + widthStyle;
+      var i=0;
+      do {
 
- // zum test
-// document.getElementById("lastevent").innerHTML = data.eventData;        
-        var tempHour = Number(data.eventData);
-       test=tempHour;
-      
-       //console.log(temp);
-       document.getElementById("Temperature-average-text").innerHTML = tempHour+ '°';  
-      
-        // Farbe des Balkens abhängig von Level festlegen
-        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-        // -- TODO Aufgabe 2 -- 
-        // Weitere Farben abhängig vom Level
-        if (tempHour > 20) {
-            color = "Green";
-        } else {
-            color = "Red";
-        }
-        // CSS Style für die Hintergrundfarbe des Balkens
-        var colorStyle = "background-color: " + color + " !important;";
+        var date = new Date();
+        // aktuelle Zeit in der Variable 'localTime' speichern
+        var localTime = date.toLocaleTimeString();
+        i += 1;
+        var x=Number(response.data[i].eventData);
+        var timestamp= String(response.data[i].timestamp);
+        var result2 = timestamp.substring(11, timestamp.length-8);
+        addData(x,result2);
+      } while (i < hour+1);
 
-        // CSS Style für die Breite des Balkens in Prozent
-        var widthStyle = "width: " + tempHour + "%;";
-
-        // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
-        // den Progressbar im HTML-Dokument zu aktualisieren
-		
-        document.getElementById("Temperature-average-bar").style = colorStyle + widthStyle;
-	
-
-        addData(test);}
+        
     }
+
+    async function getTempMinute() {
+      // request the variable "HummidityDay"
+      var response = await axios.get(rootUrl + "/api/device/0/variable/TemperatureMinute");
+      var TempMinute = response.data.result;
+
+  
+      // update the html element
+      document.getElementById("Temperature-text").innerHTML = TempMinute;
+  
+   // Farbe des Balkens abhängig von Level festlegen
+          // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
+          // -- TODO Aufgabe 2 -- 
+          // Weitere Farben abhängig vom Level
+          if (TempMinute > 20) {
+              color = "Green";
+          } else {
+              color = "Red";
+          }
+          // CSS Style für die Hintergrundfarbe des Balkens
+          var colorStyle = "background-color: " + color + " !important;";
+  
+          // CSS Style für die Breite des Balkens in Prozent
+          var widthStyle = "width: " + TempMinute + "%;";
+  
+          // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
+          // den Progressbar im HTML-Dokument zu aktualisieren
+      
+          document.getElementById("Temperature-bar").style = colorStyle + widthStyle;
+  
+  }
 
 
 //////////////////////////////////
@@ -136,10 +144,11 @@ function drawChart() {
     chart = new google.visualization.LineChart(document.getElementById('Temperature-chart'));
     chartData.removeRow(0); // Workaround: ersten (Dummy-)Wert löschen, bevor das Chart zum ersten mal gezeichnet wird.
     chart.draw(chartData, chartOptions); // Chart zeichnen
+    
 }
 
 // Eine neuen Wert ins Chart hinzufügen
-function addData(test) {
+function addData(test,timenew) {
 
 						  
 
@@ -149,8 +158,9 @@ function addData(test) {
     var localTime = date.toLocaleTimeString();
 
     // neuen Wert zu den Chartdaten hinzufügen
-    chartData.addRow([localTime, test]);
+        chartData.addRow([timenew, test]);
 
     // Chart neu rendern
     chart.draw(chartData, chartOptions);
 }
+

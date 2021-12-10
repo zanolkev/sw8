@@ -15,8 +15,7 @@ function initSSE() {
 initSSE();
 
 
-// Array, in dem alle empfangenen Hummidity-Werte gespeichert werden.
-var allMeasurements = [];
+
 
 // Maximaler Hummidity Level für die Berechnung des Prozentwerts und als maximaler Wert für das Chart.
 // -- TODO Aufgabe 1 -- 
@@ -29,133 +28,7 @@ function updateVariables(data) {
 
    // zum test
    // document.getElementById("lastevent").innerHTML = JSON.stringify(data);
-    
-
-
-    if (data.eventName === "Hummidity") {
-        // Erhaltenen Wert in der Variable 'Hummidity' speichern
-
- // zum test
-// document.getElementById("lastevent").innerHTML = data.eventData;        
-        var hum = Number(data.eventData);
-       //console.log(hum);
-       document.getElementById("Hummidity-text").innerHTML = hum+ '%';  
-      
-
-        // Wert im Chart hinzufügen
-        
-        // Wert am Ende des Arrays 'allMeasurements' hinzufügen
-       allMeasurements.push(hum);
-
-         //Hummidity aktuell
-
-        // Farbe des Balkens abhängig von Level festlegen
-        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-        // -- TODO Aufgabe 2 -- 
-        // Weitere Farben abhängig vom Level
-        if (hum < 70) {
-            color = "Green";
-        } else {
-            color = "Red";
-        }
-
-        // CSS Style für die Hintergrundfarbe des Balkens
-        var colorStyle = "background-color: " + color + " !important;";
-
-        // CSS Style für die Breite des Balkens in Prozent
-        var widthStyle = "width: " + hum + "%;";
-
-        // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
-        // den Progressbar im HTML-Dokument zu aktualisieren
-		
-        document.getElementById("Hummidity-bar").style = colorStyle + widthStyle;
-		
-		// Text unterhalb des Balkens aktualisieren
-        //document.getElementById("HummidityAktuell").innerHTML = hum;
-	}
-	
-
-
-    if (data.eventName === "HummidityHour") {
-        // Erhaltenen Wert in der Variable 'Hummidity' speichern
-
- // zum test
-// document.getElementById("lastevent").innerHTML = data.eventData;        
-        var humAverageold = Number(data.eventData);
-       //console.log(hum);
-       document.getElementById("Hummidity-average-text").innerHTML = humAverageold+ '%';  
-      
-
-        // Wert im Chart hinzufügen
-        
-        // Wert am Ende des Arrays 'allMeasurements' hinzufügen
- 
-
-         //Hummidity aktuell
-
-        // Farbe des Balkens abhängig von Level festlegen
-        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-        // -- TODO Aufgabe 2 -- 
-        // Weitere Farben abhängig vom Level
-        if (humAverageold < 70) {
-            color = "Green";
-        } else {
-            color = "Red";
-        }
-
-        // CSS Style für die Hintergrundfarbe des Balkens
-        var colorStyle = "background-color: " + color + " !important;";
-
-        // CSS Style für die Breite des Balkens in Prozent
-        var widthStyle = "width: " + humAverageold + "%;";
-
-        // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
-        // den Progressbar im HTML-Dokument zu aktualisieren
-		
-        document.getElementById("Hummidity-average-bar").style = colorStyle + widthStyle;
-		
-		// Text unterhalb des Balkens aktualisieren
-        //document.getElementById("HummidityAktuell").innerHTML = hum;
-
-        // Wert im Chart hinzufügen
-       }
-
-
-
-       if (data.eventName === "TemperatureHour") {
-        // Erhaltenen Wert in der Variable 'Temperature' speichern
-
- // zum test
-// document.getElementById("lastevent").innerHTML = data.eventData;        
-        var tempHour = Number(data.eventData);
-       test=tempHour;
-      
-       //console.log(temp);
-       document.getElementById("Temperature-average-text").innerHTML = tempHour+ '°';  
-      
-        // Farbe des Balkens abhängig von Level festlegen
-        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-        // -- TODO Aufgabe 2 -- 
-        // Weitere Farben abhängig vom Level
-        if (tempHour < 70) {
-            color = "Green";
-        } else {
-            color = "Red";
-        }
-        // CSS Style für die Hintergrundfarbe des Balkens
-        var colorStyle = "background-color: " + color + " !important;";
-
-        // CSS Style für die Breite des Balkens in Prozent
-        var widthStyle = "width: " + tempHour + "%;";
-
-        // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
-        // den Progressbar im HTML-Dokument zu aktualisieren
-		
-        document.getElementById("Temperature-average-bar").style = colorStyle + widthStyle;
-	
-
-    }
-
+       
     if (data.eventName === "RisikoTyp") {
         // Erhaltenen Wert in der Variable 'Temperature' speichern
 

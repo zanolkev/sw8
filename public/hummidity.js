@@ -15,112 +15,93 @@ function initSSE() {
 initSSE();
 
 
-// Array, in dem alle empfangenen Hummidity-Werte gespeichert werden.
-var allMeasurements = [];
-
-// Maximaler Hummidity Level für die Berechnung des Prozentwerts und als maximaler Wert für das Chart.
 // -- TODO Aufgabe 1 -- 
 // Maximalwert anpassen
 var maxLevel = 100;
-
-
+var HumHour;
    
-// Diese Funktion wird immer dann ausgeführt, wenn ein neues Event empfangen wird.
-function updateVariables(data) {
+async function getHum() {
 
-   // zum test
-   // document.getElementById("lastevent").innerHTML = JSON.stringify(data);
+       var today = new Date().toISOString().slice(0, 10)
+       const d = new Date();
+       let hour = d.getHours()-1;
+        // e.g. http://localhost:3001/MyDB/MotionDetected?timestamp=13:00
+       var url = rootUrl + "/api/MyDB/HummidityHour?timestamp="+ today; 
     
-
-
-    if (data.eventName === "Hummidity") {
-        // Erhaltenen Wert in der Variable 'Hummidity' speichern
-
- // zum test
-// document.getElementById("lastevent").innerHTML = data.eventData;        
-        var hum = Number(data.eventData);
-       //console.log(hum);
-       document.getElementById("Hummidity-text").innerHTML = hum+ '%';  
-      
-
-        // Wert im Chart hinzufügen
+        var response = await axios.get(url);
+        //console.log(response.data[0].eventData)
+        var result = Number(response.data[hour].eventData);
+        //var timestamp= String(response.data[hour].timestamp);
+        //var result2 = timestamp.substring(11, timestamp.length-5);
         
-        // Wert am Ende des Arrays 'allMeasurements' hinzufügen
-       allMeasurements.push(hum);
-
-         //Hummidity aktuell
-
+       //auskomentiert zum testn
+      document.getElementById("Hummidity-average-text").innerHTML = result + "% ";  
+      
         // Farbe des Balkens abhängig von Level festlegen
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
         // -- TODO Aufgabe 2 -- 
         // Weitere Farben abhängig vom Level
-        if (hum < 70) {
-            color = "Green";
-        } else {
-            color = "Red";
-        }
-
+      if (result > 70) {
+          color = "Green";
+       } else {
+          color = "Red";
+      }
         // CSS Style für die Hintergrundfarbe des Balkens
-        var colorStyle = "background-color: " + color + " !important;";
+      var colorStyle = "background-color: " + color + " !important;";
 
         // CSS Style für die Breite des Balkens in Prozent
-        var widthStyle = "width: " + hum + "%;";
+      var widthStyle = "width: " + result + "%;";
 
         // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
         // den Progressbar im HTML-Dokument zu aktualisieren
 		
-        document.getElementById("Hummidity-bar").style = colorStyle + widthStyle;
-		
-		// Text unterhalb des Balkens aktualisieren
-        //document.getElementById("HummidityAktuell").innerHTML = hum;
-	}
-	
+      document.getElementById("Hummidity-average-bar").style = colorStyle + widthStyle;
+      var i=0;
+      do {
 
-
-    if (data.eventName === "HummidityHour") {
-        // Erhaltenen Wert in der Variable 'Hummidity' speichern
-
- // zum test
-// document.getElementById("lastevent").innerHTML = data.eventData;        
-        var humAverageold = Number(data.eventData);
-       //console.log(hum);
-       document.getElementById("Hummidity-average-text").innerHTML = humAverageold+ '%';  
+        var date = new Date();
       
-
-        // Wert im Chart hinzufügen
         
-        // Wert am Ende des Arrays 'allMeasurements' hinzufügen
- 
+        i += 1;
+        var x=Number(response.data[i].eventData);
+        var timestamp= String(response.data[i].timestamp);
+        var result2 = timestamp.substring(11, timestamp.length-8);
+        addData(x,result2);
+      } while (i < hour+1);
 
-         //Hummidity aktuell
-
-        // Farbe des Balkens abhängig von Level festlegen
-        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-        // -- TODO Aufgabe 2 -- 
-        // Weitere Farben abhängig vom Level
-        if (humAverageold < 70) {
-            color = "Green";
-        } else {
-            color = "Red";
-        }
-
-        // CSS Style für die Hintergrundfarbe des Balkens
-        var colorStyle = "background-color: " + color + " !important;";
-
-        // CSS Style für die Breite des Balkens in Prozent
-        var widthStyle = "width: " + humAverageold + "%;";
-
-        // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
-        // den Progressbar im HTML-Dokument zu aktualisieren
-		
-        document.getElementById("Hummidity-average-bar").style = colorStyle + widthStyle;
-		
-		// Text unterhalb des Balkens aktualisieren
-        //document.getElementById("HummidityAktuell").innerHTML = hum;
-
-        // Wert im Chart hinzufügen
-        addData(humAverageold);}
+        
     }
+
+    async function getHumMinute() {
+      // request the variable "HummidityDay"
+      var response = await axios.get(rootUrl + "/api/device/0/variable/HummidityMinute");
+      var HumMinute = response.data.result;
+
+  
+      // update the html element
+      document.getElementById("Hummidity-text").innerHTML = HumMinute;
+  
+   // Farbe des Balkens abhängig von Level festlegen
+          // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
+          // -- TODO Aufgabe 2 -- 
+          // Weitere Farben abhängig vom Level
+          if (HumMinute > 20) {
+              color = "Green";
+          } else {
+              color = "Red";
+          }
+          // CSS Style für die Hintergrundfarbe des Balkens
+          var colorStyle = "background-color: " + color + " !important;";
+  
+          // CSS Style für die Breite des Balkens in Prozent
+          var widthStyle = "width: " + HumMinute + "%;";
+  
+          // Oben definierte Styles für Hintergrundfarbe und Breite des Balkens verwenden, um
+          // den Progressbar im HTML-Dokument zu aktualisieren
+      
+          document.getElementById("Hummidity-bar").style = colorStyle + widthStyle;
+  
+  }
 
 
 //////////////////////////////////
@@ -142,7 +123,7 @@ function drawChart() {
     chartData = google.visualization.arrayToDataTable([['Zeit', 'Feuchtigkeit'], ["", 0]]);
     // Chart Options festlegen
     chartOptions = {
-        title: 'Hummidity Level',
+        title: 'Feuchtigkeit Level',
         hAxis: { title: 'Zeit' },
         vAxis: { title: 'Feuchtigkeit' },
         animation: {
@@ -163,11 +144,13 @@ function drawChart() {
     chart = new google.visualization.LineChart(document.getElementById('Hummidity-chart'));
     chartData.removeRow(0); // Workaround: ersten (Dummy-)Wert löschen, bevor das Chart zum ersten mal gezeichnet wird.
     chart.draw(chartData, chartOptions); // Chart zeichnen
+    
 }
 
 // Eine neuen Wert ins Chart hinzufügen
-function addData(humAverageold) {
-					  
+function addData(test,timenew) {
+
+						  
 
     // aktuelles Datum/Zeit
     var date = new Date();
@@ -175,8 +158,9 @@ function addData(humAverageold) {
     var localTime = date.toLocaleTimeString();
 
     // neuen Wert zu den Chartdaten hinzufügen
-    chartData.addRow([localTime, humAverageold]);
+        chartData.addRow([timenew, test]);
 
     // Chart neu rendern
     chart.draw(chartData, chartOptions);
 }
+

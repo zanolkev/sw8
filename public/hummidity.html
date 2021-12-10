@@ -45,7 +45,8 @@
 
         <!-- aktueller Hummidity Level als Text -->
         <p id="Hummidity-text">Warte auf erste Messung...</p>
-        <h2 class="mt-5">Feuchtigkeit  (Durchschnitt)</h2>
+        <button onclick="getHumMinute()">Get Humidity now</button> 
+        <h2 class="mt-5">Feuchtigkeit  (Durchschnitt/letzte Stunde)</h2>
 
         <!-- Durchschnittlicher Hummidity Level als Progressbar -->
         <div class="progress">
@@ -53,7 +54,8 @@
         </div>
 
         <!-- Hummidity-text  Aktueller Hummidity Level als Text -->
-        <p id="Hummidity-average-text">Warte auf erste Messung...</p>    
+        <p id="Hummidity-average-text">Warte auf erste Messung...</p>  
+        <button onclick="getHum()">Get Humidity</button>   
         <h2 class="mt-5">Feuchtigkeits Level (Verlauf)</h2>
 
         <!-- Verlauf Hummidity Level als Chart -->
@@ -67,7 +69,7 @@
 
     <!-- Google Charts JavaScript -->
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Eigenes JavaScript -->
     <script src="hummidity.js"></script>
 </body>
