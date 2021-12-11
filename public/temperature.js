@@ -77,7 +77,7 @@ async function getTemp() {
 
   
       // update the html element
-      document.getElementById("Temperature-text").innerHTML = TempMinute;
+      document.getElementById("Temperature-text").innerHTML = TempMinute+ "°   ";
   
    // Farbe des Balkens abhängig von Level festlegen
           // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp

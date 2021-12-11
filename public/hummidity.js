@@ -35,7 +35,7 @@ async function getHum() {
  var HumHour = response2.data.result;
 
   //auskomentiert zum testn
- document.getElementById("Hummidity-average-text").innerHTML = HumHour + "°   ";
+ document.getElementById("Hummidity-average-text").innerHTML = HumHour + "%   ";
       
         // Farbe des Balkens abhängig von Level festlegen
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
@@ -60,13 +60,15 @@ async function getHum() {
       //Fill Chart with data
       var i=0;
       do {            
-        i += 1;
+    
         var x=Number(response.data[i].eventData);
         var timestamp= String(response.data[i].timestamp);
         var result2 = timestamp.substring(11, timestamp.length-8);
         addData(x,result2);
-      } while (i < hour+1);
-
+        i += 1;
+      } 
+      while (i < hour+1);
+      //while (i < 2000);
         
     }
 

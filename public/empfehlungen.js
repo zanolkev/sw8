@@ -67,7 +67,7 @@ var maxLevel = 100;
    
 
     // update the html element
-    document.getElementById("HummidityDay").innerHTML = HumDay;
+    document.getElementById("HummidityDay").innerHTML = HumDay+"%";
 
  // Farbe des Balkens abhängig von Level festlegen
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
@@ -98,7 +98,7 @@ async function getTempDay() {
     console.log(TempDay);
 
     // update the html element
-    document.getElementById("TemperatureDay").innerHTML = TempDay;
+    document.getElementById("TemperatureDay").innerHTML = TempDay+"°";
 
  // Farbe des Balkens abhängig von Level festlegen
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
