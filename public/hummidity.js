@@ -67,8 +67,9 @@ async function getHum() {
         addData(x,result2);
         i += 1;
       } 
-      while (i < hour+1);
-      //while (i < 2000);
+      //begrenzung auf aktuelle stunde
+      while (i < hour-1);
+     
         
     }
 

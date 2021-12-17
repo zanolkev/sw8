@@ -41,7 +41,7 @@ async function getTemp() {
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
         // -- TODO Aufgabe 2 -- 
         // Weitere Farben abhängig vom Level
-      if (TempHour > 20) {
+      if (TempHour > 19) {
           color = "Green";
        } else {
           color = "Red";
@@ -65,7 +65,7 @@ async function getTemp() {
         var result2 = timestamp.substring(11, timestamp.length-8);
         addData(x,result2);
         i += 1;
-      } while (i < hour+1);
+      } while (i < hour-1);
 
         
     }
@@ -83,7 +83,7 @@ async function getTemp() {
           // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
           
           // Weitere Farben abhängig vom Level
-          if (TempMinute > 20) {
+          if (TempMinute > 19) {
               color = "Green";
           } else {
               color = "Red";

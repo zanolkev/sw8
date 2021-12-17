@@ -104,7 +104,7 @@ async function getTempDay() {
         // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
         // -- TODO Aufgabe 2 -- 
         // Weitere Farben abhängig vom Level
-        if (TempDay > 20) {
+        if (TempDay > 19) {
             color = "Green";
         } else {
             color = "Red";
