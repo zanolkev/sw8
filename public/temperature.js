@@ -14,9 +14,7 @@ function initSSE() {
 }
 initSSE();
 
-// Maximaler Temperature Level für die Berechnung des Prozentwerts und als maximaler Wert für das Chart.
-// -- TODO Aufgabe 1 -- 
-// Maximalwert anpassen
+
 var maxLevel = 100;
 var tempHour;
    
@@ -37,9 +35,7 @@ async function getTemp() {
        //auskomentiert zum testn
       document.getElementById("Temperature-average-text").innerHTML = TempHour + "°   ";  
       
-        // Farbe des Balkens abhängig von Level festlegen
-        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-        // -- TODO Aufgabe 2 -- 
+        
         // Weitere Farben abhängig vom Level
       if (TempHour > 19) {
           color = "Green";
@@ -79,9 +75,7 @@ async function getTemp() {
       // update the html element
       document.getElementById("Temperature-text").innerHTML = TempMinute+ "°   ";
   
-   // Farbe des Balkens abhängig von Level festlegen
-          // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-          
+
           // Weitere Farben abhängig vom Level
           if (TempMinute > 19) {
               color = "Green";
@@ -106,7 +100,6 @@ async function getTemp() {
 /////   Code für den Chart   /////
 //////////////////////////////////
 
-// Line Chart Dokumentation: https://developers.google.com/chart/interactive/docs/gallery/linechart
 
 // Chart und Variablen 
 var chartData, chartOptions, chart;

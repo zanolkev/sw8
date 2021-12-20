@@ -14,9 +14,6 @@ function initSSE() {
 }
 initSSE();
 
-
-// -- TODO Aufgabe 1 -- 
-// Maximalwert anpassen
 var maxLevel = 100;
 var HumHour;
    
@@ -37,9 +34,7 @@ async function getHum() {
   //auskomentiert zum testn
  document.getElementById("Hummidity-average-text").innerHTML = HumHour + "%   ";
       
-        // Farbe des Balkens abhängig von Level festlegen
-        // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-        // -- TODO Aufgabe 2 -- 
+       
         // Weitere Farben abhängig vom Level
       if (HumHour < 70) {
           color = "Green";
@@ -82,9 +77,6 @@ async function getHum() {
       // update the html element
       document.getElementById("Hummidity-text").innerHTML = HumMinute+"%";
   
-   // Farbe des Balkens abhängig von Level festlegen
-          // Liste aller unterstützten Farben: https://www.w3schools.com/cssref/css_colors.asp
-          // -- TODO Aufgabe 2 -- 
           // Weitere Farben abhängig vom Level
           if (HumMinute < 70) {
               color = "Green";
